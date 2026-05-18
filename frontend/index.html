@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avatar Previewer - 头像预览器</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="cropper.css">
+</head>
+<body>
+  <div id="app">
+    <header class="app-header">
+      <h1>头像预览器</h1>
+      <p class="subtitle">上传一张图片，预览各大平台的头像效果</p>
+    </header>
+
+    <!-- Upload Area -->
+    <div class="upload-section">
+      <div class="upload-area"
+           :class="{ 'drag-over': isDragOver, 'has-image': imageLoaded }"
+           @dragover.prevent="isDragOver = true"
+           @dragleave.prevent="isDragOver = false"
+           @drop.prevent="handleDrop"
+           @click="triggerFileInput">
+        <div v-if="!imageLoaded" class="upload-placeholder">
+          <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <p>拖拽图片到此处，或点击上传</p>
+          <span class="upload-hint">支持 JPG、PNG、GIF、WebP，最大 10MB</span>
+        </div>
+        <div v-else class="upload-preview">
+          <img :src="imageUrl" alt="Uploaded avatar" class="preview-thumb">
+          <p class="change-hint">点击更换图片</p>
+        </div>
+      </div>
+      <input type="file" ref="fileInput" accept="image/*" @change="handleFileSelect" style="display: none">
+    </div>
+
+    <!-- Background Image Upload (optional) -->
+    <div v-if="imageLoaded" v-cloak class="bg-upload-section">
+      <div class="bg-upload-header" @click="bgExpanded = !bgExpanded">
+        <span class="bg-upload-label">
+          <svg class="bg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <path d="m21 15-5-5L5 21"/>
+          </svg>
+          自定义背景图（可选）
+        </span>
+        <div class="bg-header-right">
+          <span v-if="bgImageLoaded" class="bg-clear-btn" @click.stop="clearBgImage" title="移除背景">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </span>
+          <svg class="bg-chevron" :class="{ expanded: bgExpanded }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </div>
+      </div>
+      <div v-if="bgExpanded" class="bg-upload-body">
+        <div class="bg-upload-area"
+             :class="{ 'drag-over': bgDragOver, 'has-image': bgImageLoaded }"
+             @dragover.prevent="bgDragOver = true"
+             @dragleave.prevent="bgDragOver = false"
+             @drop.prevent="handleBgDrop"
+             @click="triggerBgInput">
+          <div v-if="!bgImageLoaded" class="bg-upload-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="m21 15-5-5L5 21"/>
+            </svg>
+            <p>拖拽背景图到此处，或点击上传</p>
+            <span class="bg-hint">将替换各平台的封面/横幅背景</span>
+          </div>
+          <div v-else class="bg-preview">
+            <img :src="bgImageUrl" alt="Background" class="bg-thumb">
+            <span class="bg-preview-label">背景已应用 · 点击更换</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <input type="file" ref="bgFileInput" accept="image/*" @change="handleBgFileSelect" style="display: none">
+
+    <!-- Platform Previews -->
+    <div v-if="imageLoaded" v-cloak class="previews-section">
+      <h2 class="section-title">平台预览效果</h2>
+      <div class="previews-grid">
+
+        <!-- ===== 微信朋友圈 ===== -->
+        <div class="preview-card">
+          <div class="card-header">
+            <div class="ph-icon wechat-ph-icon">💬</div>
+            <span class="ph-name">微信朋友圈</span>
+          </div>
+          <div class="card-body wx-card">
+            <div class="wx-scene">
+              <div class="wx-hero" :style="bgImageLoaded ? { backgroundImage: 'url(' + bgImageUrl + ')' } : {}"></div>
+              <div class="wx-top-bar">
+                <div class="wx-back-arrow"></div>
+                <div class="wx-camera">
+                  <svg viewBox="0 0 24 24" fill="#fff" width="22" height="22"><path d="M9 4l1.4 2H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.6L9 4zm3 4.5A4.5 4.5 0 1 0 12 17a4.5 4.5 0 0 0 0-8.5z"/></svg>
+                </div>
+              </div>
+              <div class="wx-username">微信用户</div>
+              <div class="wx-avatar-card"><img :src="imageUrl" alt=""></div>
+              <div class="wx-footer"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== QQ空间 ===== -->
+        <div class="preview-card">
+          <div class="card-header">
+            <div class="ph-icon qq-ph-icon">🐧</div>
+            <span class="ph-name">QQ空间</span>
+          </div>
+          <div class="card-body qq-card">
+            <div class="qzone-scene">
+              <div class="qzone-cover-area" :style="bgImageLoaded ? { backgroundImage: 'url(' + bgImageUrl + ')' } : {}"></div>
+              <div class="qzone-top-actions">
+                <div class="qzone-circle-btn"><div class="qzone-arrow-left"></div></div>
+                <div class="qzone-circle-group">
+                  <div class="qzone-circle-btn"><div class="qzone-icon-bell"></div></div>
+                  <div class="qzone-circle-btn"><div class="qzone-icon-gear"></div></div>
+                </div>
+              </div>
+              <section class="qzone-profile">
+                <div class="qzone-user-row">
+                  <div class="qzone-avatar-main"><img :src="imageUrl" alt=""></div>
+                  <div>
+                    <div class="qzone-name-line">
+                      <div class="qzone-name-text">QQ用户</div>
+                      <span class="qzone-level-badge">LV1</span>
+                      <span class="qzone-renew-badge">续费</span>
+                    </div>
+                    <div class="qzone-stats-line">访客总量 3.3万 · 今日访客 +3
+                      <span class="qzone-mini-group">
+                        <span class="qzone-mini-avatar"><img :src="imageUrl" alt=""></span>
+                        <span class="qzone-mini-avatar"><img :src="imageUrl" alt=""></span>
+                        <span class="qzone-mini-avatar"><img :src="imageUrl" alt=""></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <nav class="qzone-menu">
+                <div class="qzone-menu-item">
+                  <div class="qzone-menu-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 18H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-6l-4 3z"/></svg>
+                  </div>
+                  <div class="qzone-menu-label">说说</div>
+                </div>
+                <div class="qzone-menu-item">
+                  <div class="qzone-menu-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-3-6 3V5a1 1 0 0 1 1-1z"/></svg>
+                  </div>
+                  <div class="qzone-menu-label">日志</div>
+                </div>
+                <div class="qzone-menu-item">
+                  <div class="qzone-menu-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 15l-4.5-4.5-4 4-2.5-2.5L3 19"/></svg>
+                  </div>
+                  <div class="qzone-menu-label">相册</div>
+                </div>
+                <div class="qzone-menu-item">
+                  <div class="qzone-menu-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l1 11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+                  </div>
+                  <div class="qzone-menu-label">留言</div>
+                </div>
+                <div class="qzone-menu-item">
+                  <div class="qzone-menu-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                  </div>
+                  <div class="qzone-menu-label">更多</div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 微博 Weibo ===== -->
+        <div class="preview-card">
+          <div class="card-header">
+            <div class="ph-icon weibo-ph-icon">🔴</div>
+            <span class="ph-name">微博</span>
+          </div>
+          <div class="card-body weibo-card">
+            <!-- 微博个人主页 - 使用真实微博样式 -->
+            <div class="wb-profile-cover" :style="bgImageLoaded ? { backgroundImage: 'url(' + bgImageUrl + ')' } : {}">
+              <div class="wb-cover-overlay"></div>
+              <div class="wb-avatar-area">
+                <div class="wb-avatar-wrap">
+                  <img :src="imageUrl" class="wb-avatar" alt="">
+                  <span class="wb-verified-icon">✔</span>
+                </div>
+              </div>
+              <div class="wb-user-info">
+                <div class="wb-name-row">
+                  <span class="wb-nickname">微博用户</span>
+                  <span class="wb-male-icon">♂</span>
+                  <span class="wb-vip-icon">VIP</span>
+                </div>
+                <div class="wb-desc">微博认证：知名科技博主</div>
+                <div class="wb-fans-row">
+                  <div class="wb-fan-item">
+                    <span class="wb-fan-num">1629</span>
+                    <span class="wb-fan-label">关注</span>
+                  </div>
+                  <div class="wb-fan-item">
+                    <span class="wb-fan-num">2731.1万</span>
+                    <span class="wb-fan-label">粉丝</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 哔哩哔哩 Bilibili ===== -->
+        <div class="preview-card">
+          <div class="card-header">
+            <div class="ph-icon bili-ph-icon">📺</div>
+            <span class="ph-name">哔哩哔哩</span>
+          </div>
+          <div class="card-body bili-card">
+            <!-- B站个人空间 - 使用真实bili-avatar组件样式 -->
+            <div class="bili-space-card">
+              <div class="bili-avatar-panel">
+                <div class="bili-avatar bili-avatar-size-64">
+                  <div class="bili-avatar-face">
+                    <img :src="imageUrl" class="bili-avatar-img bili-avatar-img-radius" alt="">
+                  </div>
+                  <div class="bili-avatar-right-icon bili-avatar-icon-big-vip"></div>
+                </div>
+                <div class="bili-nickname-item">B站用户</div>
+                <div class="bili-vip-item">
+                  <span class="bili-vip-link">年度大会员</span>
+                </div>
+              </div>
+              <div class="bili-level-item">
+                <span class="bili-level-tag">等级</span>
+                <div class="bili-level-bar">
+                  <div class="bili-level-progress">
+                    <div class="bili-level-progress-inner"></div>
+                  </div>
+                </div>
+                <span class="bili-level-text">Lv.6</span>
+              </div>
+              <div class="bili-counts-item">
+                <div class="bili-count">
+                  <span class="bili-count-num">98</span>
+                  <span class="bili-count-text">关注</span>
+                </div>
+                <div class="bili-count">
+                  <span class="bili-count-num">1.2万</span>
+                  <span class="bili-count-text">粉丝</span>
+                </div>
+                <div class="bili-count">
+                  <span class="bili-count-num">324</span>
+                  <span class="bili-count-text">动态</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 抖音 Douyin ===== -->
+        <div class="preview-card">
+          <div class="card-header">
+            <div class="ph-icon douyin-ph-icon">🎵</div>
+            <span class="ph-name">抖音</span>
+          </div>
+          <div class="card-body douyin-card">
+            <!-- 抖音个人主页 - 使用真实抖音样式 -->
+            <div class="dy-profile-header">
+              <div class="dy-user-info">
+                <div class="dy-avatar-wrap">
+                  <img :src="imageUrl" class="dy-avatar" alt="">
+                </div>
+                <div class="dy-info-area">
+                  <div class="dy-nickname-row">
+                    <span class="dy-nickname">抖音用户</span>
+                    <span class="dy-verified">✔</span>
+                  </div>
+                  <div class="dy-id-row">
+                    <span class="dy-douyin-id">抖音号：dy12345678</span>
+                    <span class="dy-copy-icon">📋</span>
+                  </div>
+                </div>
+              </div>
+              <div class="dy-desc">记录美好生活</div>
+              <div class="dy-stats-row">
+                <div class="dy-stat">
+                  <span class="dy-stat-num">356</span>
+                  <span class="dy-stat-unit">万</span>
+                  <span class="dy-stat-label">粉丝</span>
+                </div>
+                <div class="dy-stat">
+                  <span class="dy-stat-num">1.2亿</span>
+                  <span class="dy-stat-label">获赞</span>
+                </div>
+                <div class="dy-stat">
+                  <span class="dy-stat-num">298</span>
+                  <span class="dy-stat-label">关注</span>
+                </div>
+              </div>
+              <div class="dy-btn-row">
+                <button class="dy-follow-btn">+ 关注</button>
+                <button class="dy-msg-btn">私信</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 小红书 Xiaohongshu ===== -->
+        <div class="preview-card">
+          <div class="card-header">
+            <div class="ph-icon xhs-ph-icon">📕</div>
+            <span class="ph-name">小红书</span>
+          </div>
+          <div class="card-body xhs-card">
+            <!-- 小红书个人主页 - 使用真实小红书样式 -->
+            <div class="xhs-profile">
+              <div class="xhs-user-header">
+                <div class="xhs-avatar-wrap">
+                  <div class="xhs-avatar-ring">
+                    <img :src="imageUrl" class="xhs-avatar" alt="">
+                  </div>
+                </div>
+                <div class="xhs-info-col">
+                  <div class="xhs-name-row">
+                    <span class="xhs-nickname">小红书用户</span>
+                    <span class="xhs-verified-badge">✔</span>
+                  </div>
+                  <div class="xhs-id">小红书号：xhs_123456</div>
+                  <div class="xhs-ip">IP属地：上海</div>
+                </div>
+              </div>
+              <div class="xhs-desc">标记我的生活 🌸 | 分享日常穿搭与好物</div>
+              <div class="xhs-tags">
+                <span class="xhs-tag">穿搭</span>
+                <span class="xhs-tag">美食</span>
+                <span class="xhs-tag">旅行</span>
+              </div>
+              <div class="xhs-stats-row">
+                <div class="xhs-stat">
+                  <span class="xhs-stat-num">28.6万</span>
+                  <span class="xhs-stat-label">粉丝</span>
+                </div>
+                <div class="xhs-stat">
+                  <span class="xhs-stat-num">356</span>
+                  <span class="xhs-stat-label">关注</span>
+                </div>
+                <div class="xhs-stat">
+                  <span class="xhs-stat-num">52.8万</span>
+                  <span class="xhs-stat-label">获赞与收藏</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== GitHub ===== -->
+        <div class="preview-card">
+          <div class="card-header">
+            <div class="ph-icon github-ph-icon">🐙</div>
+            <span class="ph-name">GitHub</span>
+          </div>
+          <div class="card-body github-card">
+            <!-- GitHub 个人资料页 - 使用真实GitHub样式 (源码来自torvalds页面) -->
+            <div class="gh-profile-sidebar">
+              <div class="gh-avatar-container">
+                <a class="gh-avatar-link">
+                  <img :src="imageUrl" class="gh-avatar avatar-user width-full" alt="" width="260" height="260">
+                </a>
+              </div>
+              <div class="gh-vcard-names">
+                <h1 class="gh-vcard-names-inner">
+                  <span class="gh-fullname p-name" itemprop="name">GitHub User</span>
+                  <span class="gh-username p-nickname" itemprop="additionalName">@username</span>
+                </h1>
+              </div>
+              <div class="gh-user-profile-bio">
+                <div class="gh-bio-text">Full-stack developer passionate about open source.</div>
+              </div>
+              <button class="gh-follow-btn">
+                <svg class="gh-people-icon" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M2 5.5a3.5 3.5 0 115.898 2.549 5.508 5.508 0 013.034 4.084.75.75 0 11-1.482.235 4.001 4.001 0 00-7.9 0 .75.75 0 01-1.482-.236A5.507 5.507 0 013.102 8.05 3.493 3.493 0 012 5.5zM11 4a.75.75 0 100 1.5 1.5 1.5 0 01.666 2.844.75.75 0 00-.416.672v.352a.75.75 0 00.574.73c1.2.289 2.162 1.2 2.522 2.372a.75.75 0 101.434-.44 5.01 5.01 0 00-2.56-3.012A3 3 0 0011 4z"/></svg>
+                Follow
+              </button>
+              <div class="gh-user-meta">
+                <div class="gh-meta-item">
+                  <svg class="gh-meta-icon" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M1.75 16A1.75 1.75 0 010 14.25V1.75C0 .784.784 0 1.75 0h8.5C11.216 0 12 .784 12 1.75v12.5c0 .085-.006.168-.018.25h2.268a.25.25 0 00.25-.25V8.285a.25.25 0 00-.111-.208l-1.055-.703a.749.749 0 11.832-1.248l1.055.703c.487.325.779.871.779 1.456v5.965A1.75 1.75 0 0114.25 16h-3.5a.766.766 0 01-.197-.026c-.099.017-.2.026-.303.026h-3a.75.75 0 01-.75-.75V14h-1v1.25a.75.75 0 01-.75.75h-3zm0-1.5h2.5V13h3v1.5h2.5a.25.25 0 00.25-.25V1.75a.25.25 0 00-.25-.25h-8.5a.25.25 0 00-.25.25v12.5c0 .138.112.25.25.25z"/></svg>
+                  <span>12</span>
+                </div>
+                <div class="gh-meta-item">
+                  <svg class="gh-meta-icon" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-.878a2.25 2.25 0 111.5 0v.878a2.25 2.25 0 01-2.25 2.25h-1.5v2.128a2.251 2.251 0 11-1.5 0V8.5h-1.5A2.25 2.25 0 013.5 6.25v-.878a2.25 2.25 0 111.5 0zM5 3.25a.75.75 0 10-1.5 0 .75.75 0 001.5 0zm6.75.75a.75.75 0 100-1.5.75.75 0 000 1.5zM8 12.75a.75.75 0 100-1.5.75.75 0 000 1.5z"/></svg>
+                  <span>42</span>
+                </div>
+                <a class="gh-followers-link">
+                  <svg class="gh-meta-icon" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M2 5.5a3.5 3.5 0 115.898 2.549 5.508 5.508 0 013.034 4.084.75.75 0 11-1.482.235 4.001 4.001 0 00-7.9 0 .75.75 0 01-1.482-.236A5.507 5.507 0 013.102 8.05 3.493 3.493 0 012 5.5z"/></svg>
+                  <strong>1.2k</strong> followers
+                </a>
+                <span class="gh-dot">·</span>
+                <a class="gh-following-link"><strong>42</strong> following</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== Twitter / X ===== -->
+        <div class="preview-card">
+          <div class="card-header">
+            <div class="ph-icon twitter-ph-icon">𝕏</div>
+            <span class="ph-name">Twitter / X</span>
+          </div>
+          <div class="card-body twitter-card">
+            <!-- Twitter/X 个人资料 - 使用真实Twitter样式 -->
+            <div class="tw-banner" :style="bgImageLoaded ? { backgroundImage: 'url(' + bgImageUrl + ')' } : {}"></div>
+            <div class="tw-profile-section">
+              <div class="tw-avatar-row">
+                <div class="tw-avatar-outer">
+                  <div class="tw-avatar-border"></div>
+                  <div class="tw-avatar-inner">
+                    <img :src="imageUrl" class="tw-avatar-img" alt="">
+                  </div>
+                </div>
+                <button class="tw-follow-btn">Follow</button>
+              </div>
+              <div class="tw-user-section">
+                <div class="tw-display-name">
+                  <span class="tw-name-text">Twitter User</span>
+                  <svg class="tw-verified" viewBox="0 0 22 22" width="20" height="20"><defs><linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f4e72a"/><stop offset="100%" style="stop-color:#cd8105"/></linearGradient></defs><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.855-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.69-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.636.433 1.221.878 1.69.47.446 1.055.752 1.69.883.635.13 1.294.083 1.902-.143.271.586.702 1.084 1.24 1.438.54.354 1.167.551 1.813.569.646-.018 1.273-.215 1.814-.569s.97-.854 1.245-1.44c.604.227 1.26.276 1.893.143.634-.13 1.218-.437 1.69-.883.445-.47.749-1.055.88-1.69.13-.633.083-1.29-.14-1.896.587-.274 1.084-.705 1.438-1.246.354-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z" fill="url(#gold)"/></svg>
+                </div>
+                <div class="tw-handle">@usertwitter</div>
+              </div>
+              <div class="tw-bio">The AI-powered platform to build, scale, and deliver secure software.</div>
+              <div class="tw-meta-row">
+                <span class="tw-location">📍 San Francisco, CA</span>
+                <span class="tw-joined">📅 Joined March 2020</span>
+              </div>
+              <div class="tw-stats-row">
+                <a class="tw-stat">
+                  <span class="tw-stat-num">334</span>
+                  <span class="tw-stat-label">Following</span>
+                </a>
+                <a class="tw-stat">
+                  <span class="tw-stat-num">2.6M</span>
+                  <span class="tw-stat-label">Followers</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== Discord ===== -->
+        <div class="preview-card">
+          <div class="card-header">
+            <div class="ph-icon discord-ph-icon">🎮</div>
+            <span class="ph-name">Discord</span>
+          </div>
+          <div class="card-body discord-card">
+            <!-- Discord 用户弹窗 - 使用真实Discord样式 -->
+            <div class="dc-popout">
+              <div class="dc-banner" :style="bgImageLoaded ? { backgroundImage: 'url(' + bgImageUrl + ')' } : {}"></div>
+              <div class="dc-popout-body">
+                <div class="dc-avatar-section">
+                  <div class="dc-avatar-wrapper">
+                    <div class="dc-avatar-ring">
+                      <img :src="imageUrl" class="dc-avatar-img" alt="">
+                    </div>
+                    <div class="dc-status-indicator online"></div>
+                  </div>
+                </div>
+                <div class="dc-user-info">
+                  <div class="dc-username-row">
+                    <span class="dc-username">DiscordUser</span>
+                    <span class="dc-discriminator">1234</span>
+                  </div>
+                  <div class="dc-display-name">Discord User</div>
+                  <div class="dc-bio">Just vibing 🎮 | Open source contributor</div>
+                  <div class="dc-divider"></div>
+                  <div class="dc-section-title">ROLES</div>
+                  <div class="dc-roles">
+                    <span class="dc-role"><span class="dc-role-dot" style="background:#5865f2"></span> Admin</span>
+                    <span class="dc-role"><span class="dc-role-dot" style="background:#57f287"></span> Developer</span>
+                    <span class="dc-role"><span class="dc-role-dot" style="background:#fee75c"></span> Nitro</span>
+                  </div>
+                  <div class="dc-divider"></div>
+                  <div class="dc-section-title">NOTE</div>
+                  <div class="dc-note-placeholder">Click to add a note</div>
+                  <button class="dc-msg-btn">Message</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== Telegram ===== -->
+        <div class="preview-card">
+          <div class="card-header">
+            <div class="ph-icon telegram-ph-icon">✈️</div>
+            <span class="ph-name">Telegram</span>
+          </div>
+          <div class="card-body telegram-card">
+            <!-- Telegram 频道/用户页面 - 使用真实tgme_page样式 -->
+            <div class="tgme-page">
+              <div class="tgme-page-photo">
+                <img class="tgme-page-photo-image" :src="imageUrl" alt="">
+              </div>
+              <div class="tgme-page-title">
+                <span>Telegram User</span>
+                <i class="tgme-verified-icon"> ✔</i>
+              </div>
+              <div class="tgme-page-extra">last seen recently</div>
+              <div class="tgme-page-description">Open source messaging app. Fast, secure, and synced across all your devices.</div>
+              <div class="tgme-page-action">
+                <a class="tgme-action-button">Send Message</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <footer class="app-footer">
+      <p>Avatar Previewer — 通过 Lightpanda 无头浏览器抓取真实平台源码还原</p>
+    </footer>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="cropper.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

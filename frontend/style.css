@@ -1,0 +1,1768 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+[v-cloak] {
+  display: none !important;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+  background: #f0f2f5;
+  color: #333;
+  min-height: 100vh;
+}
+
+#app {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* ==================== Header ==================== */
+.app-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.app-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: #888;
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+/* ==================== Upload ==================== */
+.upload-section {
+  margin-bottom: 32px;
+}
+
+.upload-area {
+  border: 2px dashed #d0d5dd;
+  border-radius: 16px;
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #fff;
+}
+
+.upload-area:hover {
+  border-color: #667eea;
+  background: #f8f9ff;
+}
+
+.upload-area.drag-over {
+  border-color: #667eea;
+  background: #eef2ff;
+  transform: scale(1.01);
+}
+
+.upload-area.has-image {
+  padding: 16px;
+  border-style: solid;
+  border-color: #e0e0e0;
+}
+
+.upload-placeholder {
+  color: #666;
+}
+
+.upload-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+  color: #999;
+}
+
+.upload-placeholder p {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.upload-hint {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.upload-preview {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.preview-thumb {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.change-hint {
+  color: #999;
+  font-size: 13px;
+}
+
+/* ==================== Background Upload ==================== */
+.bg-upload-section {
+  margin-bottom: 24px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.bg-upload-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.bg-upload-header:hover {
+  background: #f7f8fa;
+}
+
+.bg-upload-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+}
+
+.bg-icon {
+  color: #888;
+  flex-shrink: 0;
+}
+
+.bg-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bg-clear-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: #999;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.bg-clear-btn:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.bg-chevron {
+  color: #aaa;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.bg-chevron.expanded {
+  transform: rotate(180deg);
+}
+
+.bg-upload-body {
+  padding: 0 14px 14px;
+}
+
+.bg-upload-area {
+  border: 1.5px dashed #d0d5dd;
+  border-radius: 8px;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fafbfc;
+}
+
+.bg-upload-area:hover {
+  border-color: #667eea;
+  background: #f8f9ff;
+}
+
+.bg-upload-area.drag-over {
+  border-color: #667eea;
+  background: #eef2ff;
+  transform: scale(1.005);
+}
+
+.bg-upload-area.has-image {
+  padding: 10px;
+  border-style: solid;
+  border-color: #e0e0e0;
+  background: #fff;
+}
+
+.bg-upload-placeholder {
+  color: #888;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.bg-upload-placeholder svg {
+  color: #bbb;
+}
+
+.bg-upload-placeholder p {
+  font-size: 13px;
+}
+
+.bg-hint {
+  font-size: 11px;
+  color: #bbb;
+}
+
+.bg-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bg-thumb {
+  width: 64px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bg-preview-label {
+  font-size: 12px;
+  color: #888;
+}
+
+/* ==================== Section ==================== */
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #444;
+  text-align: center;
+}
+
+.previews-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ==================== Card Base ==================== */
+.preview-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+.preview-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #f7f8fa;
+  border-bottom: 1px solid #ebeef0;
+}
+
+.ph-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.ph-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.card-body {
+  padding: 0;
+}
+
+/* ==================== 微信朋友圈 ==================== */
+.wechat-ph-icon { background: #07c160; }
+
+.wx-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.wx-scene {
+  position: relative;
+  height: 240px;
+  background: #111;
+}
+
+.wx-hero {
+  position: absolute;
+  inset: 0 0 48px;
+  background: linear-gradient(135deg, #2c5f2d 0%, #4a8c3f 30%, #6db85a 60%, #97d28a 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.wx-top-bar {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+
+.wx-back-arrow {
+  width: 18px;
+  height: 18px;
+  border-left: 2.5px solid #fff;
+  border-bottom: 2.5px solid #fff;
+  transform: rotate(45deg) translateX(2px);
+}
+
+.wx-camera {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+}
+
+.wx-username {
+  position: absolute;
+  right: 98px;
+  bottom: 58px;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 800;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, .3);
+  z-index: 2;
+}
+
+.wx-avatar-card {
+  position: absolute;
+  right: 12px;
+  bottom: 26px;
+  width: 76px;
+  height: 76px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, .9);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .2);
+  z-index: 2;
+  background: #eee;
+}
+
+.wx-avatar-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wx-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48px;
+  background: rgba(255, 255, 255, .96);
+}
+
+/* ==================== QQ空间 ==================== */
+.qq-ph-icon { background: #12b7f5; }
+.qq-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.qzone-scene {
+  position: relative;
+  height: 260px;
+  background: linear-gradient(180deg, #ede5dc 0%, #f4f2ee 52%, #f8f7f5 100%);
+}
+
+.qzone-cover-area {
+  height: 42%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .1), rgba(0, 0, 0, .04));
+  background-size: cover;
+  background-position: center;
+}
+
+.qzone-top-actions {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+
+.qzone-circle-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(222, 214, 208, .9);
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35);
+}
+
+.qzone-circle-group { display: flex; gap: 8px; }
+
+.qzone-arrow-left {
+  width: 11px;
+  height: 11px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(45deg) translateX(1px);
+}
+
+.qzone-icon-bell {
+  width: 14px;
+  height: 14px;
+  position: relative;
+}
+
+.qzone-icon-bell::before {
+  content: '';
+  position: absolute;
+  inset: 1px 2px 3px;
+  border: 2px solid #fff;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.qzone-icon-bell::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 2px;
+  background: #fff;
+  border-radius: 999px;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+}
+
+.qzone-icon-gear::before {
+  content: '⚙';
+  font-size: 18px;
+  color: #fff;
+  line-height: 1;
+}
+
+.qzone-profile {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 46%;
+  z-index: 2;
+}
+
+.qzone-user-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qzone-avatar-main {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: none;
+  background: linear-gradient(180deg, #fff, #ececec);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
+  border: 3px solid rgba(255, 255, 255, .7);
+}
+
+.qzone-avatar-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.qzone-name-line {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.qzone-name-text {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+.qzone-level-badge {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .08);
+  color: #a9a9a9;
+  font-weight: 700;
+}
+
+.qzone-renew-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #b06e23;
+  background: linear-gradient(180deg, #f5ddb2, #efc36a);
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+
+.qzone-stats-line {
+  margin-top: 5px;
+  font-size: 12px;
+  letter-spacing: -.02em;
+  color: #555;
+}
+
+.qzone-mini-group {
+  display: inline-flex;
+  margin-left: 4px;
+  transform: translateY(2px);
+}
+
+.qzone-mini-avatar {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  overflow: hidden;
+  margin-left: -3px;
+  background: #d7d7d7;
+}
+
+.qzone-mini-avatar:first-child { margin-left: 0; }
+
+.qzone-mini-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.qzone-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, .88);
+  backdrop-filter: blur(8px);
+  padding: 10px 10px 14px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  border-top: 1px solid rgba(0, 0, 0, .05);
+}
+
+.qzone-menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  color: #171717;
+}
+
+.qzone-menu-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+}
+
+.qzone-menu-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.qzone-menu-label {
+  font-size: 11px;
+}
+
+/* ==================== 微博 Weibo ==================== */
+.weibo-ph-icon { background: #e6162d; }
+.weibo-card {
+  background: #fff;
+}
+
+.wb-profile-cover {
+  position: relative;
+  background: linear-gradient(135deg, #e6162d 0%, #c91425 50%, #a01020 100%);
+  background-size: cover;
+  background-position: center;
+  padding: 30px 20px 20px;
+  overflow: hidden;
+}
+
+.wb-profile-cover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.12) 0%, transparent 50%);
+}
+
+.wb-cover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.wb-avatar-area {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.wb-avatar-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.wb-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.8);
+}
+
+.wb-verified-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #e6162d;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  border: 2px solid #fff;
+}
+
+.wb-user-info {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.wb-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.wb-nickname {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.wb-male-icon {
+  font-size: 14px;
+  color: #4fc3f7;
+}
+
+.wb-vip-icon {
+  font-size: 9px;
+  color: #ffd700;
+  background: rgba(255, 215, 0, 0.2);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+.wb-desc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 6px;
+}
+
+.wb-fans-row {
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  margin-top: 14px;
+}
+
+.wb-fan-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wb-fan-num {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.wb-fan-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 2px;
+}
+
+/* ==================== 哔哩哔哩 Bilibili ==================== */
+.bili-ph-icon { background: #fb7299; }
+.bili-card {
+  background: #fff;
+  padding: 20px;
+}
+
+.bili-space-card {
+  text-align: center;
+}
+
+.bili-avatar-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 真实 bili-avatar 组件样式 */
+.bili-avatar {
+  display: block;
+  position: relative;
+  background-size: cover;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #eee, #ddd);
+}
+
+.bili-avatar-size-64 {
+  width: 64px;
+  height: 64px;
+}
+
+.bili-avatar-face {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+}
+
+.bili-avatar-img {
+  display: block;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.bili-avatar-img-radius {
+  border-radius: 50%;
+}
+
+.bili-avatar-right-icon {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  width: 27.5%;
+  height: 27.5%;
+  background-size: cover;
+}
+
+.bili-avatar-icon-big-vip {
+  background: linear-gradient(135deg, #fb7299, #f5547d);
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.bili-nickname-item {
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 10px;
+  color: #333;
+}
+
+.bili-vip-item {
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.bili-vip-link {
+  padding: 2px 8px;
+  min-width: 69px;
+  border-radius: 4px;
+  background-color: #fb7299;
+  color: #fff;
+  font-size: 12px;
+  display: inline-block;
+  text-align: center;
+}
+
+.bili-level-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 14px;
+  gap: 6px;
+}
+
+.bili-level-tag {
+  font-size: 11px;
+  color: #999;
+  background: #f4f5f7;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.bili-level-bar {
+  flex: 1;
+  max-width: 140px;
+}
+
+.bili-level-progress {
+  height: 4px;
+  background: #e3e5e7;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bili-level-progress-inner {
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(90deg, #f3cb85, #f0a040);
+  border-radius: 4px;
+}
+
+.bili-level-text {
+  font-size: 12px;
+  color: #fb7299;
+  font-weight: 600;
+}
+
+.bili-counts-item {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e3e5e7;
+}
+
+.bili-count {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.bili-count-num {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+}
+
+.bili-count-text {
+  font-size: 12px;
+  color: #999;
+  margin-top: 2px;
+}
+
+/* ==================== 抖音 Douyin ==================== */
+.douyin-ph-icon { background: #000; }
+.douyin-card {
+  background: #fff;
+  padding: 20px;
+}
+
+.dy-profile-header {
+  text-align: center;
+}
+
+.dy-user-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+}
+
+.dy-avatar-wrap {
+  flex-shrink: 0;
+}
+
+.dy-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fe2c55;
+}
+
+.dy-info-area {
+  flex: 1;
+  min-width: 0;
+}
+
+.dy-nickname-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dy-nickname {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.dy-verified {
+  background: #fe2c55;
+  color: #fff;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+}
+
+.dy-id-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.dy-douyin-id {
+  font-size: 12px;
+  color: #999;
+}
+
+.dy-copy-icon {
+  font-size: 10px;
+}
+
+.dy-desc {
+  font-size: 13px;
+  color: #666;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.dy-stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.dy-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dy-stat-num {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+.dy-stat-unit {
+  font-size: 11px;
+  color: #666;
+  margin-top: -2px;
+}
+
+.dy-stat-label {
+  font-size: 11px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.dy-btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  justify-content: center;
+}
+
+.dy-follow-btn {
+  background: #fe2c55;
+  color: #fff;
+  border: none;
+  padding: 8px 32px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 120px;
+}
+
+.dy-msg-btn {
+  background: #fff;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  padding: 8px 24px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ==================== 小红书 Xiaohongshu ==================== */
+.xhs-ph-icon { background: #ff2442; }
+.xhs-card {
+  background: #fff;
+  padding: 20px;
+}
+
+.xhs-profile {
+  text-align: center;
+}
+
+.xhs-user-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+}
+
+.xhs-avatar-wrap {
+  flex-shrink: 0;
+}
+
+.xhs-avatar-ring {
+  padding: 2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff2442, #ff6b81, #ff2442);
+}
+
+.xhs-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  display: block;
+}
+
+.xhs-info-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.xhs-name-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.xhs-nickname {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.xhs-verified-badge {
+  background: #ff2442;
+  color: #fff;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+}
+
+.xhs-id {
+  font-size: 12px;
+  color: #999;
+  margin-top: 4px;
+}
+
+.xhs-ip {
+  font-size: 11px;
+  color: #bbb;
+  margin-top: 2px;
+}
+
+.xhs-desc {
+  font-size: 13px;
+  color: #666;
+  margin-top: 12px;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.xhs-tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.xhs-tag {
+  background: #fff0f2;
+  color: #ff2442;
+  font-size: 11px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  border: 1px solid #ffe0e5;
+}
+
+.xhs-stats-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.xhs-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.xhs-stat-num {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+.xhs-stat-label {
+  font-size: 11px;
+  color: #999;
+  margin-top: 2px;
+}
+
+/* ==================== GitHub ==================== */
+.github-ph-icon { background: #24292e; }
+.github-card {
+  background: #fff;
+  padding: 16px;
+}
+
+/* 真实 GitHub profile sidebar 样式 */
+.gh-profile-sidebar {
+  max-width: 296px;
+}
+
+.gh-avatar-container {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.gh-avatar-link {
+  display: block;
+}
+
+.gh-avatar {
+  width: 260px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 50%;
+  border: 1px solid #d0d7de;
+  object-fit: cover;
+}
+
+.gh-vcard-names {
+  margin-bottom: 12px;
+}
+
+.gh-vcard-names-inner {
+  font-size: 26px;
+  line-height: 1.25;
+  font-weight: 300;
+}
+
+.gh-fullname {
+  display: block;
+  overflow: hidden;
+  font-weight: 600;
+  color: #1f2328;
+}
+
+.gh-username {
+  display: block;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 24px;
+  color: #656d76;
+}
+
+.gh-user-profile-bio {
+  margin-bottom: 16px;
+}
+
+.gh-bio-text {
+  font-size: 16px;
+  color: #1f2328;
+  line-height: 1.5;
+}
+
+.gh-follow-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #24292f;
+  background-color: #f6f8fa;
+  border: 1px solid rgba(31, 35, 40, 0.15);
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  transition: background-color 0.2s;
+}
+
+.gh-follow-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.gh-people-icon {
+  flex-shrink: 0;
+}
+
+.gh-user-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: #656d76;
+}
+
+.gh-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gh-meta-icon {
+  flex-shrink: 0;
+  color: #656d76;
+}
+
+.gh-followers-link,
+.gh-following-link {
+  color: #656d76;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gh-followers-link:hover,
+.gh-following-link:hover {
+  color: #0969da;
+}
+
+.gh-followers-link strong,
+.gh-following-link strong {
+  color: #1f2328;
+  font-weight: 600;
+}
+
+.gh-dot {
+  color: #656d76;
+}
+
+/* ==================== Twitter / X ==================== */
+.twitter-ph-icon { background: #000; color: #fff; font-weight: 700; font-size: 13px; }
+.twitter-card {
+  background: #fff;
+}
+
+/* 真实 Twitter/X profile 样式 */
+.tw-banner {
+  height: 120px;
+  background: linear-gradient(135deg, #1da1f2 0%, #0d8ddc 50%, #0a7abf 100%);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.tw-banner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.15) 0%, transparent 60%);
+}
+
+.tw-profile-section {
+  padding: 0 16px 16px;
+  position: relative;
+}
+
+.tw-avatar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: -32px;
+  position: relative;
+  z-index: 2;
+}
+
+.tw-avatar-outer {
+  position: relative;
+  width: 88px;
+  height: 88px;
+}
+
+.tw-avatar-border {
+  position: absolute;
+  inset: -4px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.tw-avatar-inner {
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.tw-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tw-follow-btn {
+  margin-top: 40px;
+  background: #0f1419;
+  color: #fff;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 9999px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tw-follow-btn:hover {
+  background: #2a2f35;
+}
+
+.tw-user-section {
+  margin-top: 8px;
+}
+
+.tw-display-name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tw-name-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f1419;
+  line-height: 1.3125;
+}
+
+.tw-verified {
+  flex-shrink: 0;
+}
+
+.tw-handle {
+  font-size: 15px;
+  color: #536471;
+  line-height: 1.3125;
+}
+
+.tw-bio {
+  font-size: 15px;
+  color: #0f1419;
+  margin-top: 12px;
+  line-height: 1.3125;
+}
+
+.tw-meta-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  font-size: 15px;
+  color: #536471;
+  flex-wrap: wrap;
+}
+
+.tw-location,
+.tw-joined {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tw-stats-row {
+  display: flex;
+  gap: 20px;
+  margin-top: 12px;
+}
+
+.tw-stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tw-stat-num {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f1419;
+}
+
+.tw-stat-label {
+  font-size: 14px;
+  color: #536471;
+}
+
+/* ==================== Discord ==================== */
+.discord-ph-icon { background: #5865f2; }
+.discord-card {
+  background: #313338;
+}
+
+/* 真实 Discord user popout 样式 */
+.dc-popout {
+  background: #2b2d31;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.dc-banner {
+  height: 60px;
+  background: linear-gradient(135deg, #5865f2 0%, #4752c4 50%, #3c45a5 100%);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.dc-popout-body {
+  position: relative;
+  padding: 0 16px 16px;
+}
+
+.dc-avatar-section {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  padding-left: 16px;
+}
+
+.dc-avatar-wrapper {
+  position: relative;
+  margin-top: -32px;
+}
+
+.dc-avatar-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  padding: 6px;
+  background: #2b2d31;
+}
+
+.dc-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.dc-status-indicator {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 4px solid #2b2d31;
+}
+
+.dc-status-indicator.online {
+  background: #23a559;
+}
+
+.dc-user-info {
+  margin-top: 12px;
+}
+
+.dc-username-row {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.dc-username {
+  font-size: 20px;
+  font-weight: 600;
+  color: #f2f3f5;
+  line-height: 1.25;
+}
+
+.dc-discriminator {
+  font-size: 14px;
+  color: #949ba4;
+}
+
+.dc-display-name {
+  font-size: 14px;
+  color: #b5bac1;
+  margin-top: 2px;
+}
+
+.dc-bio {
+  font-size: 14px;
+  color: #dbdee1;
+  margin-top: 8px;
+  line-height: 1.375;
+}
+
+.dc-divider {
+  height: 1px;
+  background: #3f4147;
+  margin: 12px 0;
+}
+
+.dc-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #b5bac1;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.dc-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.dc-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #1e1f22;
+  color: #dbdee1;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  border: 1px solid #3f4147;
+}
+
+.dc-role-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dc-note-placeholder {
+  font-size: 14px;
+  color: #6d6f78;
+  cursor: text;
+  padding: 4px 0;
+}
+
+.dc-msg-btn {
+  width: 100%;
+  background: #5865f2;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background 0.2s;
+}
+
+.dc-msg-btn:hover {
+  background: #4752c4;
+}
+
+/* ==================== Telegram ==================== */
+.telegram-ph-icon { background: #26a5e4; }
+.telegram-card {
+  background: #fff;
+  padding: 24px;
+}
+
+/* 真实 tgme_page 样式 */
+.tgme-page {
+  text-align: center;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.tgme-page-photo {
+  margin-bottom: 16px;
+}
+
+.tgme-page-photo-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.tgme-page-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #000;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.tgme-verified-icon {
+  font-style: normal;
+  color: #26a5e4;
+  font-size: 18px;
+}
+
+.tgme-page-extra {
+  font-size: 14px;
+  color: #8e8e93;
+  margin-bottom: 10px;
+}
+
+.tgme-page-description {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.tgme-action-button {
+  display: inline-block;
+  padding: 10px 24px;
+  background: #26a5e4;
+  color: #fff;
+  border-radius: 22px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tgme-action-button:hover {
+  background: #1e8fc4;
+}
+
+/* ==================== Animations ==================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.preview-card:nth-child(1) { animation-delay: 0.05s; }
+.preview-card:nth-child(2) { animation-delay: 0.1s; }
+.preview-card:nth-child(3) { animation-delay: 0.15s; }
+.preview-card:nth-child(4) { animation-delay: 0.2s; }
+.preview-card:nth-child(5) { animation-delay: 0.25s; }
+.preview-card:nth-child(6) { animation-delay: 0.3s; }
+.preview-card:nth-child(7) { animation-delay: 0.35s; }
+.preview-card:nth-child(8) { animation-delay: 0.4s; }
+.preview-card:nth-child(9) { animation-delay: 0.45s; }
+.preview-card:nth-child(10) { animation-delay: 0.5s; }
+
+/* ==================== Footer ==================== */
+.app-footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 16px 0;
+  color: #aaa;
+  font-size: 12px;
+}
+
+/* ==================== Responsive ==================== */
+@media (max-width: 540px) {
+  #app {
+    padding: 16px 12px;
+  }
+
+  .upload-area {
+    padding: 28px 16px;
+  }
+
+  .gh-avatar {
+    width: 100%;
+    max-width: 260px;
+  }
+}
