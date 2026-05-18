@@ -21,8 +21,8 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/your-username/avatorPreviewer.git
-cd avatorPreviewer
+git clone https://github.com/ttumetai/avatarPreviewer.git
+cd avatarPreviewer
 
 # 启动本地服务器
 python3 -m http.server -d frontend 8000
